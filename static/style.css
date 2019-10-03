@@ -1,0 +1,21 @@
+body {
+    font-family: Tahoma, Verdana, sans-serif;
+}
+
+.h1 {
+    text-align: center;
+}
+
+.form {
+    width: 300px;
+    margin: 0 auto;
+}
+
+.form__input-login,
+.form__input-pass,
+.form__input-submit {
+    width: 100%;
+    margin-bottom: 10px;
+    display: block;
+    padding: 5px;
+}
