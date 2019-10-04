@@ -2,13 +2,25 @@ body {
     font-family: Tahoma, Verdana, sans-serif;
 }
 
-.h1 {
-    text-align: center;
+.form {
+    width: 350px;
+    margin: 0 auto;
 }
 
-.form {
-    width: 300px;
-    margin: 0 auto;
+.form__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form__toggle-form-btn {
+    border: 0;
+    outline: 1px solid lightgray;
+    -webkit-appearance: none;
+}
+
+.form__toggle-form-btn:first-child {
+    margin-right: 5px;
 }
 
 .form__input-login,
@@ -17,5 +29,14 @@ body {
     width: 100%;
     margin-bottom: 10px;
     display: block;
-    padding: 5px;
+    padding: 7px 0;
+    -webkit-appearance: none;
+    border: 0;
+    outline: 1px solid lightgray;
+    text-indent: 5px;
+}
+
+.form__toggle-form-btn,
+.form__input-submit {
+    cursor: pointer;
 }
