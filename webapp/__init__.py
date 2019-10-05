@@ -13,24 +13,21 @@ def create_app():
     def index():
         return render_template('login.html')
         def login():
-        message = ''
-        if request.method == 'POST':
-	        username = request.form.get('username')
-	        password = request.form.get('password')
+            message = ''
+            if request.method == 'POST':
+                username = request.form.get('username')
+                password = request.form.get('password')
 
-	        if username == 'root' and password == 'pass':
-	            message = "Correct username and password"
-	        else:
-	            message = "Wrong username or password"
-    
-        return render_template('index.html', message=message)
-    
+                if username == 'root' and password == 'pass':
+                    message = "Correct username and password"
+                else:
+                    message = "Wrong username or password"
+
+            return render_template('index.html', message=message)
+
     @app.route('/admin/')
     @login_required
     def admin():
         return render_template('admin.html')
 
     return app
-
-
-
