@@ -1,7 +1,7 @@
 from flask import Flask, render_template, flash, redirect, url_for
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 
-from webapp.forms import LoginForm
+from webapp.forms import LoginForm, Toolbar
 from webapp.model import db, User
 
 
@@ -54,7 +54,8 @@ def create_app():
     @app.route('/admin')
     @login_required
     def admin_index():
-            return 'Тут будет функционал'
+        cont_form = Toolbar()
+        return render_template('admin.html', form=cont_form)
 
     return app
 
