@@ -8,38 +8,34 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>{{ page_title }}</title>
+    <title>Система управления докер контейнерами</title>
   </head>
   <body>
         <div class='container'>
-            <div class='row justify-content-center' style="height: calc(100vh - 266px); align-items: center;">
-                <div class='col-4'>
-                    <h1>{{ page_title }}</h1> 
-                    {% with messages = get_flashed_messages() %}
-                        {% if messages %}
-                        <div class="alert alert-warning" role="alert">
-                            {% for message in messages %}
-                                {{ message }}<br>
-                            {% endfor %}
+            <div class='row'>
+                <div class='col-12'>
+                    <h3>Управление контейнерами</h3>
+                    <form action="{{ url_for('admin_index') }}" method='POST'>
+                        <div class="btn-group" role="group" aria-label="Toolbar">
+                                {{ form.start_cont }}
+                                {{ form.stop_cont }}
+                                {{ form.kill_cont }}
+                                {{ form.restart_cont }}
+                                {{ form.pause_cont }}
+                                {{ form.resume_cont }}
+                                {{ form.remove_cont }}
                         </div>
-                        {% endif %}
-                    {% endwith %}
-                    <form action="{{ url_for('process_login') }}" method='POST'>
-                        { form.hidden_tag() }}
-                        <div class="form-group">
-                            {{ form.username.label }}
-                            {{ form.username() }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.password.label }}
-                            {{ form.password() }}
-                        </div>
-                        {{ form.submit }}
                     </form>
+                    
                 </div>
-            </div>  
-        </div> 
-
+            </div>    
+            <div class='row'>
+                <div class='col-12'>
+                    <h3>Список контейнеров</h3>
+                        {{ container_list }}
+                </div>
+            </div>
+        </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

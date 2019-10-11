@@ -1,34 +1,63 @@
-from flask import Flask, render_template, request
-from webapp.model import db, login_manager
-from flask_login import LoginManager, UserMixin, login_required
+from flask import Flask, render_template, flash, redirect, url_for
+from flask_login import LoginManager, current_user, login_required, login_user, logout_user
+
+from webapp.forms import LoginForm, Toolbar
+from webapp.model import db, User
+from webapp.docker_list import get_list
+
 
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
     db.init_app(app)
+
+    login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'login'
 
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(user_id)
+
     @app.route('/')
     def index():
-        return render_template('login.html')
-        def login():
-        message = ''
-        if request.method == 'POST':
-	        username = request.form.get('username')
-	        password = request.form.get('password')
+        if current_user.is_authenticated:
+            return redirect(url_for('admin_index'))
+        else:
+            return redirect(url_for('login'))
+        
+    @app.route('/login')
+    def login():
+        title = "Авторизация"
+        login_form = LoginForm()
+        if current_user.is_authenticated:
+            return redirect(url_for('admin_index'))
+        else:
+            return render_template('login.html', page_title=title, form=login_form)
 
-	        if username == 'root' and password == 'pass':
-	            message = "Correct username and password"
-	        else:
-	            message = "Wrong username or password"
+    @app.route('/process-login', methods=['POST'])
+    def process_login():
+        form = LoginForm()
+        if form.validate_on_submit():
+            user = User.query.filter(User.username == form.username.data).first()
+            if user and user.check_password(form.password.data):
+                login_user(user)
+                return redirect(url_for('admin_index'))
+
+        flash('Неправильное имя пользователя или пароль')
+        return redirect(url_for('login'))
     
-        return render_template('index.html', message=message)
-    
-    @app.route('/admin/')
+    @app.route('/logout')
+    def logout():
+        logout_user()
+        return redirect(url_for('login'))
+
+    @app.route('/admin')
     @login_required
-    def admin():
-        return render_template('admin.html')
+    def admin_index():
+        cont_form = Toolbar()
+        container_list = get_list()
+        return render_template('admin.html', form=cont_form, container_list=container_list)
 
     return app
 
