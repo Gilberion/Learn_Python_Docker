@@ -3,6 +3,7 @@ from flask_login import LoginManager, current_user, login_required, login_user, 
 
 from webapp.forms import LoginForm, Toolbar
 from webapp.model import db, User
+from webapp.docker_list import get_list
 
 
 def create_app():
@@ -55,7 +56,8 @@ def create_app():
     @login_required
     def admin_index():
         cont_form = Toolbar()
-        return render_template('admin.html', form=cont_form)
+        container_list = get_list()
+        return render_template('admin.html', form=cont_form, container_list=container_list)
 
     return app
 

@@ -14,7 +14,7 @@
         <div class='container'>
             <div class='row'>
                 <div class='col-12'>
-                    <h3>Containers</h3>
+                    <h3>Управление контейнерами</h3>
                     <form action="{{ url_for('admin_index') }}" method='POST'>
                         <form action>
                             <div class="btn-group" role="group" aria-label="Toolbar">
@@ -29,12 +29,14 @@
                         </form>
                     </form> 
                 </div>
-            </div>
+            </div>    
             <div class='row'>
-                
-            </div>  
-       </div> 
-
+                <div class='col-12'>
+                    <h3>Список контейнеров</h3>
+                        {{ container_list }}
+                </div>
+            </div>
+        </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
