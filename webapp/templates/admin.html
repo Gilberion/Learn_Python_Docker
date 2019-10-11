@@ -16,8 +16,7 @@
                 <div class='col-12'>
                     <h3>Управление контейнерами</h3>
                     <form action="{{ url_for('admin_index') }}" method='POST'>
-                        <form action>
-                            <div class="btn-group" role="group" aria-label="Toolbar">
+                        <div class="btn-group" role="group" aria-label="Toolbar">
                                 {{ form.start_cont }}
                                 {{ form.stop_cont }}
                                 {{ form.kill_cont }}
@@ -25,9 +24,9 @@
                                 {{ form.pause_cont }}
                                 {{ form.resume_cont }}
                                 {{ form.remove_cont }}
-                            </div>
-                        </form>
-                    </form> 
+                        </div>
+                    </form>
+                    
                 </div>
             </div>    
             <div class='row'>
