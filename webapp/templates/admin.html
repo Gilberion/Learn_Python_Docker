@@ -7,6 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/style.css">
 
     <title>Система управления докер контейнерами</title>
   </head>
@@ -32,7 +33,50 @@
             <div class='row'>
                 <div class='col-12'>
                     <h3>Список контейнеров</h3>
-                        {{ container_list }}
+                        <form>
+                            <table>
+                                <tr>
+                                <th></th>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Image</th>
+                                <th>Labels</th>
+                                <th>Status</th>
+                                <th>Volumes</th>
+                                <th>Ports</th>
+                                </tr>
+                                {% for container in container_list %}
+                                    <tr>
+                                        <td>
+                                        <input type='radio' role='radio' id='radioButton' name='check' value='{{ container.name }}'>
+                                        </td>
+                                        <td class='id'>
+                                            {{ container.id }}
+                                        </td>
+                                        <td> 
+                                            {{ container.name }}
+                                        </td>
+                                        <td>
+                                            {{ container.image }}                       
+                                        </td>
+                                        <td> 
+                                            {{ container.labels }}
+                                        </td>
+                                        <td class='status'>
+                                            {{ container.status }}
+                                        </td>
+                                        <td>
+                                            {{ container.volumes }}
+                                        </td>
+                                        <td>
+                                            {{ container.ports }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </form>
+                    </body>
+                        
                 </div>
             </div>
         </div>
