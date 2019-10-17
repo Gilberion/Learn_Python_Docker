@@ -11,7 +11,7 @@ def get_list():
         cont_id = (transf.replace('>', ''))
         c_id = client.containers.get(cont_id).attrs['Id']
         c_name = client.containers.get(cont_id).attrs['Name']
-        #c_status = (client.containers.get(cont_id).attrs['Status']) ???
+        c_status = (client.containers.get(cont_id).status)
         c_image = client.containers.get(cont_id).attrs['Config']['Image']
         c_labels = client.containers.get(cont_id).attrs['Config']['Labels']
         c_volumes = client.containers.get(cont_id).attrs['Config']['Volumes']
@@ -19,7 +19,7 @@ def get_list():
             c_ports = client.containers.get(cont_id).attrs['Config']['ExposedPorts']
         except:
             c_ports = 'Порт не определен'
-        docker_dict = {'id: ': c_id, 'name: ': c_name, 'image: ': c_image, 'labels: ': c_labels, 'volumes: ': c_volumes, 'ports: ': c_ports}
+        docker_dict = {'id': c_id, 'name': c_name, 'status': c_status,'image': c_image, 'labels': c_labels, 'volumes': c_volumes, 'ports': c_ports}
         docker_list.append(docker_dict)
     return(docker_list)
 
