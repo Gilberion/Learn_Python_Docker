@@ -11,7 +11,7 @@ def login():
     title = "Авторизация"
     login_form = LoginForm()
     if current_user.is_authenticated:
-        return redirect(url_for('admin_index'))
+        return redirect(url_for('admin.admin_index'))
     else:
         return render_template('login.html', page_title=title, form=login_form)
 
@@ -22,12 +22,12 @@ def process_login():
         user = User.query.filter(User.username == form.username.data).first()
         if user and user.check_password(form.password.data):
             login_user(user)
-            return redirect(url_for('admin_index'))
+            return redirect(url_for('admin.admin_index'))
 
     flash('Неправильное имя пользователя или пароль')
-    return redirect(url_for('login'))
+    return redirect(url_for('user.login'))
 
 @blueprint.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('user.login'))
