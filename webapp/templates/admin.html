@@ -16,7 +16,7 @@
             <div class='row'>
                 <div class='col-12'>
                     <h3>Управление контейнерами</h3>
-                    <form action="{{ url_for('admin_index') }}" method='POST'>
+                    <form action="{{ url_for('admin.admin_index') }}" method='POST'>
                         <div class="btn-group" role="group" aria-label="Toolbar">
                                 {{ form.start_cont }}
                                 {{ form.stop_cont }}
@@ -27,9 +27,9 @@
                                 {{ form.remove_cont }}
                         </div>
                     </form>
-                    
+
                 </div>
-            </div>    
+            </div>
             <div class='row'>
                 <div class='col-12'>
                     <h3>Список контейнеров</h3>
@@ -53,13 +53,13 @@
                                         <td class='id'>
                                             {{ container.id }}
                                         </td>
-                                        <td> 
+                                        <td>
                                             {{ container.name }}
                                         </td>
                                         <td>
-                                            {{ container.image }}                       
+                                            {{ container.image }}
                                         </td>
-                                        <td> 
+                                        <td>
                                             {{ container.labels }}
                                         </td>
                                         <td class='status'>
@@ -76,7 +76,7 @@
                             </table>
                         </form>
                     </body>
-                        
+
                 </div>
 
             </div>
