@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for
 from flask_login import LoginManager, current_user
 
-from webapp.model import db
+from webapp.db import db
 from webapp.user.models import User
 from webapp.user.views import blueprint as user_blueprint
 from webapp.admin.views import blueprint as admin_blueprint
