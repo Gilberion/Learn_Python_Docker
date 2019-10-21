@@ -27,7 +27,7 @@ def process_login():
     flash('Неправильное имя пользователя или пароль')
     return redirect(url_for('user.login'))
 
-@blueprint.route('/logout')
+@blueprint.route('/logout', methods=['POST'])
 def logout():
     logout_user()
     return redirect(url_for('user.login'))
