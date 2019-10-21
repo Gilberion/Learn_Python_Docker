@@ -2,19 +2,26 @@
 
 {% block content %}
     <div class='row'>
-        <div class='col-12'>
-            <h3>Управление контейнерами</h3>
-            <form action="{{ url_for('admin.admin_index') }}" method='POST'>
-                <div class="btn-group" role="group" aria-label="Toolbar">
-                    {{ form.start_cont }}
-                    {{ form.stop_cont }}
-                    {{ form.kill_cont }}
-                    {{ form.restart_cont }}
-                    {{ form.pause_cont }}
-                    {{ form.resume_cont }}
-                    {{ form.remove_cont }}
-                </div>
-            </form>
+        <h3 class='col-12'>Управление контейнерами</h3>
+        <div class="col-12">
+            <div class="row justify-content-between">
+                <form class='col-6' action="{{ url_for('admin.admin_index') }}" method='POST'>
+                    <div class="btn-group cont-control" role="group" aria-label="Toolbar">
+                        {{ form.start_cont }}
+                        {{ form.stop_cont }}
+                        {{ form.kill_cont }}
+                        {{ form.restart_cont }}
+                        {{ form.pause_cont }}
+                        {{ form.resume_cont }}
+                        {{ form.remove_cont }}
+                    </div>
+                </form>
+                <form class="col-auto ml-auto" action="{{ url_for('user.logout') }}" method="POST">
+                    <div class="btn-group">
+                        {{ logout_form.logout }}
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <div class='row'>
@@ -23,14 +30,14 @@
                 <form>
                     <table>
                         <tr>
-                        <th></th>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                        <th>Labels</th>
-                        <th>Status</th>
-                        <th>Volumes</th>
-                        <th>Ports</th>
+                            <th></th>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Image</th>
+                            <th>Labels</th>
+                            <th>Status</th>
+                            <th>Volumes</th>
+                            <th>Ports</th>
                         </tr>
                         {% for container in container_list %}
                             <tr>
@@ -66,16 +73,16 @@
         </div>
     </div>
     <script type="text/javascript">
-        $('.btn-group input').attr("disabled", "true");
+        $('.cont-control input').attr("disabled", "true");
         $('.cheker').click(function () {
             var check = $(this).data();
             if ($(this).is(':checked') && $(this).data('status') === 'exited') {
-                $('.btn-group input').attr("disabled", "true");
+                $('.cont-control input').attr("disabled", "true");
                 $('#start_cont').removeAttr("disabled");
                 $('#remove_cont').removeAttr("disabled");
                 console.log(check);
             } else {
-                $('.btn-group input').removeAttr("disabled");
+                $('.cont-control input').removeAttr("disabled");
                 $('#start_cont').attr("disabled", "true");
                 $('#remove_cont').attr("disabled", "true");
             };

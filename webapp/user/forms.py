@@ -15,3 +15,6 @@ class Toolbar(FlaskForm):
     pause_cont = SubmitField('pause', render_kw={'class': 'btn btn-outline-info'})
     resume_cont = SubmitField('resume', render_kw={'class': 'btn btn-outline-info'})
     remove_cont = SubmitField('remove', render_kw={'class': 'btn btn-outline-danger'})
+
+class Logout(FlaskForm):
+    logout = SubmitField('Выйти из панели управления', render_kw={'class': 'btn btn-outline-danger'})
