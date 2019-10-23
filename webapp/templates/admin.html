@@ -42,7 +42,7 @@
                         {% for container in container_list %}
                             <tr>
                                 <td>
-                                    <input type='radio' class='cheker' name='cheker' value='{{ container.name }}' data-status='{{ container.status }}'>
+                                    <input type='radio' class='cheker' name='cheker' value='{{ container.name }}' data-status='{{ container.status }}' data-id='{{ container.id }}'>
                                 </td>
                                 <td class='id'>
                                     {{ container.id }}
