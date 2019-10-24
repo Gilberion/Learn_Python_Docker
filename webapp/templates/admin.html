@@ -5,7 +5,9 @@
         <h3 class='col-12'>Управление контейнерами</h3>
         <div class="col-12">
             <div class="row justify-content-between">
-                <form class='col-6' action="{{ url_for('admin.admin_index') }}" method='POST'>
+                <form class='col-6' action="{{ url_for('admin.admin_index') }}" method='POST' id='form_actions'>
+                    <input class='cont_id' value="" hidden type="text" name="container_id">
+                    <input class='cont_action' value="" hidden type="text" name="container_action">
                     <div class="btn-group cont-control" role="group" aria-label="Toolbar">
                         {{ form.start_cont }}
                         {{ form.stop_cont }}
@@ -27,7 +29,7 @@
     <div class='row'>
         <div class='col-12'>
             <h3>Список контейнеров</h3>
-                <form>
+                <form id='form_containers'>
                     <table>
                         <tr>
                             <th></th>
@@ -73,19 +75,38 @@
         </div>
     </div>
     <script type="text/javascript">
-        $('.cont-control input').attr("disabled", "true");
-        $('.cheker').click(function () {
-            var check = $(this).data();
-            if ($(this).is(':checked') && $(this).data('status') === 'exited') {
-                $('.cont-control input').attr("disabled", "true");
-                $('#start_cont').removeAttr("disabled");
-                $('#remove_cont').removeAttr("disabled");
-                console.log(check);
-            } else {
-                $('.cont-control input').removeAttr("disabled");
-                $('#start_cont').attr("disabled", "true");
-                $('#remove_cont').attr("disabled", "true");
-            };
+        $(document).ready(function() {
+            $('.cont-control input').attr("disabled", "true");
+            $('.cheker').click(function () {
+                var check = $(this).data('status');
+                if ($(this).is(':checked') && $(this).data('status') === 'exited') {
+                    $('.cont-control input').attr("disabled", "true");
+                    $('#start_cont').removeAttr("disabled");
+                    $('#remove_cont').removeAttr("disabled");
+                } else {
+                    $('.cont-control input').removeAttr("disabled");
+                    $('#start_cont').attr("disabled", "true");
+                    $('#remove_cont').attr("disabled", "true");
+                };
+            });
+
+            var formActions = $('#form_actions');
+            var formContainers = $('#form_containers');
+            
+            function getContainerID() {
+                var SelectedContainerID = $(formContainers).find('input:checked').data('id');
+                $(formActions).find('.cont_id').val(SelectedContainerID);
+            }
+
+            $(formActions).on('click', 'input[type="submit"]', function(e) {
+                e.preventDefault();
+                var form = $(this).parent().parent();
+                var action = $(form).find('.cont_action');
+                $(action).val($(this).val());
+                getContainerID();
+                $(form).serialize();
+                $(form).submit();
+            });
         });
     </script>
 {% endblock content %}
