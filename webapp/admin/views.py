@@ -5,11 +5,10 @@ from webapp.user.forms import Toolbar, Logout
 from webapp.docker_func import get_list, client
 
 import docker
-
-
+# import win32.lib.pywintypes
+from win32.lib import pywintypes
 
 blueprint = Blueprint('admin', __name__, url_prefix='/admin')
-
 
 @blueprint.route('/')
 @login_required
@@ -18,12 +17,20 @@ def admin_index():
     logout = Logout()
     container_list = get_list()
 
-    return render_template(
-        'admin.html',
-        form=cont_form,
-        logout_form=logout,
-        container_list=container_list
-    )
+    # print(f'ERROR: {win32.lib.pywintypes.error}')
+    try:
+        return render_template(
+            'admin.html',
+            form=cont_form,
+            logout_form=logout,
+            container_list=container_list
+        )
+    except pywintypes.error:
+        return render_template(
+            'admin.html',
+            warning='ОЧКО, ЖОПА'
+        )
+
 
 @blueprint.route('/conteiner_proc', methods=["POST"])
 @login_required
