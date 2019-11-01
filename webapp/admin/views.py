@@ -5,7 +5,6 @@ from webapp.user.forms import Toolbar, Logout
 from webapp.docker_func import get_list, client
 
 import docker
-# import win32.lib.pywintypes
 from win32.lib import pywintypes
 
 blueprint = Blueprint('admin', __name__, url_prefix='/admin')
@@ -17,7 +16,6 @@ def admin_index():
     logout = Logout()
     container_list = get_list()
 
-    # print(f'ERROR: {win32.lib.pywintypes.error}')
     try:
         return render_template(
             'admin.html',
@@ -28,7 +26,7 @@ def admin_index():
     except pywintypes.error:
         return render_template(
             'admin.html',
-            warning='ОЧКО, ЖОПА'
+            warning='Docker is not running.'
         )
 
 
