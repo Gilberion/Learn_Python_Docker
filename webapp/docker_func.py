@@ -2,6 +2,7 @@ import docker
 
 client = docker.from_env()
 
+
 def get_list():
     inf_b_treat = client.containers.list(all)
     docker_list = []
@@ -32,6 +33,3 @@ def get_list():
         docker_list.append(docker_dict)
 
     return(docker_list)
-
-
-

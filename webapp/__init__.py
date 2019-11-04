@@ -6,6 +6,7 @@ from webapp.user.models import User
 from webapp.user.views import blueprint as user_blueprint
 from webapp.admin.views import blueprint as admin_blueprint
 
+
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
