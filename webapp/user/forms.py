@@ -21,7 +21,7 @@ class Toolbar(FlaskForm):
 
 class Contadd(FlaskForm):
     cont_name = StringField('Наименование образа', validators=[DataRequired()], render_kw={"class": "form-control"})
-    submit_cont_name = SubmitField('run', render_kw={"class": "btn btn-success"})
+    submit_cont_name = SubmitField('create', render_kw={"class": "btn btn-success"})
 
 
 class Logout(FlaskForm):
