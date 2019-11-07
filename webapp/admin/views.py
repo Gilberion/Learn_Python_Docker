@@ -1,7 +1,7 @@
-from flask import render_template, Blueprint, request, redirect, url_for
+from flask import render_template, Blueprint, request, redirect, url_for, flash
 from flask_login import login_required
 
-from webapp.user.forms import Toolbar, Logout
+from webapp.user.forms import Toolbar, Logout, Contadd
 from webapp.docker_func import get_list, client
 
 import docker
@@ -14,15 +14,17 @@ blueprint = Blueprint('admin', __name__, url_prefix='/admin')
 def admin_index():
     cont_form = Toolbar()
     logout = Logout()
+    contadd =  Contadd()
 
     try:
         container_list = get_list()
 
         return render_template(
             'admin.html',
-            form=cont_form,
+            toolbar_form=cont_form,
             logout_form=logout,
-            container_list=container_list
+            container_list=container_list,
+            contadd_form=contadd
         )
     except pywintypes_err:
         return render_template(
@@ -65,3 +67,16 @@ def conteiner_proc():
         container = client.containers.get(cont_id)
         container.remove()
         return redirect(url_for('admin.admin_index'))
+
+@blueprint.route('/conteiner_add', methods=["POST"])
+@login_required
+def conteiner_add():
+    name = request.form['cont_name']
+    try:
+        client.containers.run(name)
+        return redirect(url_for('admin.admin_index'))
+    except docker.errors.ImageNotFound:
+        flash('Такого контейнера не существует')
+        return redirect(url_for('admin.admin_index'))
+
+        
