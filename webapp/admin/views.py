@@ -73,7 +73,7 @@ def conteiner_proc():
 def conteiner_add():
     name = request.form['cont_name']
     try:
-        client.containers.run(name)
+        client.containers.create(name)
         return redirect(url_for('admin.admin_index'))
     except docker.errors.ImageNotFound:
         flash('Такого контейнера не существует')

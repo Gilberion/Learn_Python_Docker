@@ -108,7 +108,11 @@
                     $('#remove_cont').removeAttr("disabled");
                 } else if ($(this).is(':checked') && $(this).data('status') === 'paused') {  
                     $('.cont-control input').attr("disabled", "true");
-                    $('#resume_cont').removeAttr("disabled"); 
+                    $('#resume_cont').removeAttr("disabled");
+                } else if ($(this).is(':checked') && $(this).data('status') === 'created') {  
+                    $('.cont-control input').attr("disabled", "true");
+                    $('#start_cont').removeAttr("disabled");
+                    $('#remove_cont').removeAttr("disabled");     
                 } else {
                     $('.cont-control input').removeAttr("disabled");
                     $('#start_cont').attr("disabled", "true");
