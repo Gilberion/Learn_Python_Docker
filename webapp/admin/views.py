@@ -9,12 +9,13 @@ from pywintypes import error as pywintypes_err
 
 blueprint = Blueprint('admin', __name__, url_prefix='/admin')
 
+
 @blueprint.route('/')
 @login_required
 def admin_index():
     cont_form = Toolbar()
     logout = Logout()
-    contadd =  Contadd()
+    contadd = Contadd()
 
     try:
         container_list = get_list()
@@ -33,44 +34,22 @@ def admin_index():
         )
 
 
-@blueprint.route('/conteiner_proc', methods=["POST"])
+@blueprint.route('/container_action', methods=["POST"])
 @login_required
-def conteiner_proc():
+def container_action():
     cont_id = request.form['container_id']
     cont_action = request.form['container_action']
 
-    if cont_action == 'start':
+    action_list = ['start', 'stop', 'kill', 'restart', 'pause', 'resume', 'remove']
+    if cont_action in action_list:
         container = client.containers.get(cont_id)
-        container.start()
-        return redirect(url_for('admin.admin_index'))
-    elif cont_action == 'stop':
-        container = client.containers.get(cont_id)
-        container.stop()
-        return redirect(url_for('admin.admin_index'))
-    elif cont_action == 'kill':
-        container = client.containers.get(cont_id)
-        container.kill()
-        return redirect(url_for('admin.admin_index'))
-    elif cont_action == 'restart':
-        container = client.containers.get(cont_id)
-        container.restart()
-        return redirect(url_for('admin.admin_index'))
-    elif cont_action == 'pause':
-        container = client.containers.get(cont_id)
-        container.pause()
-        return redirect(url_for('admin.admin_index'))
-    elif cont_action == 'resume':
-        container = client.containers.get(cont_id)
-        container.restart()
-        return redirect(url_for('admin.admin_index'))
-    elif cont_action == 'remove':
-        container = client.containers.get(cont_id)
-        container.remove()
+        getattr(container, cont_action)()
         return redirect(url_for('admin.admin_index'))
 
-@blueprint.route('/conteiner_add', methods=["POST"])
+
+@blueprint.route('/container_add', methods=["POST"])
 @login_required
-def conteiner_add():
+def container_add():
     name = request.form['cont_name']
     try:
         client.containers.create(name)
@@ -78,5 +57,3 @@ def conteiner_add():
     except docker.errors.ImageNotFound:
         flash('Такого контейнера не существует')
         return redirect(url_for('admin.admin_index'))
-
-        
