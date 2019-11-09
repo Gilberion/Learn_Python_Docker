@@ -34,9 +34,9 @@ def admin_index():
         )
 
 
-@blueprint.route('/conteiner_proc', methods=["POST"])
+@blueprint.route('/container_action', methods=["POST"])
 @login_required
-def conteiner_proc():
+def container_action():
     cont_id = request.form['container_id']
     cont_action = request.form['container_action']
 
@@ -47,9 +47,9 @@ def conteiner_proc():
         return redirect(url_for('admin.admin_index'))
 
 
-@blueprint.route('/conteiner_add', methods=["POST"])
+@blueprint.route('/container_add', methods=["POST"])
 @login_required
-def conteiner_add():
+def container_add():
     name = request.form['cont_name']
     try:
         client.containers.create(name)

@@ -5,7 +5,7 @@
         <h3 class='col-12'>Управление контейнерами</h3>
         <div class="col-12">
             <div class="row">
-                <form class='col-6' action="{{ url_for('admin.conteiner_proc') }}" method='POST' id='form_actions'>
+                <form class='col-6' action="{{ url_for('admin.container_action') }}" method='POST' id='form_actions'>
                     <input class='cont_id' value="" hidden type="text" name="container_id">
                     <input class='cont_action' value="" hidden type="text" name="container_action">
                     <div class="btn-group cont-control" role="group" aria-label="Toolbar">
@@ -41,13 +41,13 @@
         </div>
     </div>
     <div class='row' style="margin-bottom: 20px;">
-        <form class='col-6' action="{{ url_for('admin.conteiner_add') }}" method='POST'>
+        <form class='col-6' action="{{ url_for('admin.container_add') }}" method='POST'>
             <div class="form-group">
                 {{ contadd_form.cont_name.label }}
                 {{ contadd_form.cont_name() }}
             </div>
             {{ contadd_form.submit_cont_name }}
-        </form>  
+        </form>
     </div>
     <div class='row'>
         <div class='col-12'>
@@ -106,13 +106,13 @@
                     $('.cont-control input').attr("disabled", "true");
                     $('#start_cont').removeAttr("disabled");
                     $('#remove_cont').removeAttr("disabled");
-                } else if ($(this).is(':checked') && $(this).data('status') === 'paused') {  
+                } else if ($(this).is(':checked') && $(this).data('status') === 'paused') {
                     $('.cont-control input').attr("disabled", "true");
                     $('#resume_cont').removeAttr("disabled");
-                } else if ($(this).is(':checked') && $(this).data('status') === 'created') {  
+                } else if ($(this).is(':checked') && $(this).data('status') === 'created') {
                     $('.cont-control input').attr("disabled", "true");
                     $('#start_cont').removeAttr("disabled");
-                    $('#remove_cont').removeAttr("disabled");     
+                    $('#remove_cont').removeAttr("disabled");
                 } else {
                     $('.cont-control input').removeAttr("disabled");
                     $('#start_cont').attr("disabled", "true");
