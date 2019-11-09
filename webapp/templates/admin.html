@@ -1,45 +1,142 @@
-<!doctype html>
-<html lang="ru">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% extends 'base.html' %}
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <title>Система управления докер контейнерами</title>
-  </head>
-  <body>
-        <div class='container'>
-            <div class='row'>
-                <div class='col-12'>
-                    <h3>Управление контейнерами</h3>
-                    <form action="{{ url_for('admin_index') }}" method='POST'>
-                        <div class="btn-group" role="group" aria-label="Toolbar">
-                                {{ form.start_cont }}
-                                {{ form.stop_cont }}
-                                {{ form.kill_cont }}
-                                {{ form.restart_cont }}
-                                {{ form.pause_cont }}
-                                {{ form.resume_cont }}
-                                {{ form.remove_cont }}
-                        </div>
-                    </form>
-                    
-                </div>
-            </div>    
-            <div class='row'>
-                <div class='col-12'>
-                    <h3>Список контейнеров</h3>
-                        {{ container_list }}
-                </div>
+{% block content %}
+    <div class='row' style="margin-bottom: 20px;">
+        <h3 class='col-12'>Управление контейнерами</h3>
+        <div class="col-12">
+            <div class="row">
+                <form class='col-6' action="{{ url_for('admin.container_action') }}" method='POST' id='form_actions'>
+                    <input class='cont_id' value="" hidden type="text" name="container_id">
+                    <input class='cont_action' value="" hidden type="text" name="container_action">
+                    <div class="btn-group cont-control" role="group" aria-label="Toolbar">
+                        {{ toolbar_form.start_cont }}
+                        {{ toolbar_form.stop_cont }}
+                        {{ toolbar_form.kill_cont }}
+                        {{ toolbar_form.restart_cont }}
+                        {{ toolbar_form.pause_cont }}
+                        {{ toolbar_form.resume_cont }}
+                        {{ toolbar_form.remove_cont }}
+                    </div>
+                </form>
+                <form class="col-auto ml-auto" action="{{ url_for('user.logout') }}" method="POST">
+                    <div class="btn-group">
+                        {{ logout_form.logout }}
+                    </div>
+                </form>
             </div>
         </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  </body>
-</html>
+    </div>
+    <div class='row'>
+        <div class='col-12'>
+            <h3>Добавление контейнера</h3>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="alert alert-warning" role="alert">
+                        {% for message in messages %}
+                            {{ message }}<br>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+    <div class='row' style="margin-bottom: 20px;">
+        <form class='col-6' action="{{ url_for('admin.container_add') }}" method='POST'>
+            <div class="form-group">
+                {{ contadd_form.cont_name.label }}
+                {{ contadd_form.cont_name() }}
+            </div>
+            {{ contadd_form.submit_cont_name }}
+        </form>
+    </div>
+    <div class='row'>
+        <div class='col-12'>
+            <h3>Список контейнеров</h3>
+                <form id='form_containers'>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Image</th>
+                            <th>Labels</th>
+                            <th>Status</th>
+                            <th>Volumes</th>
+                            <th>Ports</th>
+                        </tr>
+                        {% for container in container_list %}
+                            <tr>
+                                <td>
+                                    <input type='radio' class='cheker' name='cheker' value='{{ container.name }}' data-status='{{ container.status }}' data-id='{{ container.id }}'>
+                                </td>
+                                <td class='id'>
+                                    {{ container.id }}
+                                </td>
+                                <td>
+                                    {{ container.name }}
+                                </td>
+                                <td>
+                                    {{ container.image }}
+                                </td>
+                                <td>
+                                    {{ container.labels }}
+                                </td>
+                                <td class='status'>
+                                    {{ container.status }}
+                                </td>
+                                <td>
+                                    {{ container.volumes }}
+                                </td>
+                                <td>
+                                    {{ container.ports }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </form>
+            </body>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.cont-control input').attr("disabled", "true");
+            $('.cheker').click(function () {
+                var check = $(this).data('status');
+                if ($(this).is(':checked') && $(this).data('status') === 'exited') {
+                    $('.cont-control input').attr("disabled", "true");
+                    $('#start_cont').removeAttr("disabled");
+                    $('#remove_cont').removeAttr("disabled");
+                } else if ($(this).is(':checked') && $(this).data('status') === 'paused') {
+                    $('.cont-control input').attr("disabled", "true");
+                    $('#resume_cont').removeAttr("disabled");
+                } else if ($(this).is(':checked') && $(this).data('status') === 'created') {
+                    $('.cont-control input').attr("disabled", "true");
+                    $('#start_cont').removeAttr("disabled");
+                    $('#remove_cont').removeAttr("disabled");
+                } else {
+                    $('.cont-control input').removeAttr("disabled");
+                    $('#start_cont').attr("disabled", "true");
+                    $('#remove_cont').attr("disabled", "true");
+                };
+            });
+
+            var formActions = $('#form_actions');
+            var formContainers = $('#form_containers');
+
+            function getContainerID() {
+                var SelectedContainerID = $(formContainers).find('input:checked').data('id');
+                $(formActions).find('.cont_id').val(SelectedContainerID);
+            }
+
+            $(formActions).on('click', 'input[type="submit"]', function(e) {
+                e.preventDefault();
+                var form = $(this).parent().parent();
+                var action = $(form).find('.cont_action');
+                $(action).val($(this).val());
+                getContainerID();
+                $(form).serialize();
+                $(form).submit();
+            });
+        });
+    </script>
+{% endblock content %}
